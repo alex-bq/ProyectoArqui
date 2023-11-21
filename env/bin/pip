@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/macbook/Documents/Informatica duoc/Arquitectura/ProyectoArqui/env/bin/python3.11" "$0" "$@"
-' '''
+#!/Users/luisolavarria/Documents/VisualStudio/ProyectoArqui/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
