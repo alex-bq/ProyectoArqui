@@ -1,0 +1,61 @@
+
+.mapilla{
+  display: grid;
+ }
+ #map {
+  height: 400px; 
+  width: 1180px;
+  margin: auto;
+  border-radius: 02%;
+  align-self: center;
+  justify-self: center;
+  }
+
+  /* mapita responsivo */
+
+@media screen and (max-width:1200px){
+  #map{
+      width: 80%;
+  }
+  
+}
+
+@media screen and (max-width:770px){
+  #map{
+      width: 90%;
+  }
+  
+}
+  
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+
+  .registro{
+    align-self: center;
+    justify-self: center;
+  }
+
+  .lista{
+    height: 400px; 
+    width: 1180px;
+    margin: auto;
+  }
+
+  @media screen and (max-width:1200px){
+    .lista{
+        width: 80%;
+    }
+    
+  }
+  
+  @media screen and (max-width:770px){
+    .lista{
+        width: 90%;
+    }
+  }
