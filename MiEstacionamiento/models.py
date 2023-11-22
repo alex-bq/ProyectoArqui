@@ -2,36 +2,30 @@ from django.db import models
 
 
 class Cliente(models.Model):
-    run_cli = models.IntegerField(primary_key=True)
-    dv_run = models.CharField(max_length=1)
     nombre = models.CharField(max_length=35)
-    s_nombre = models.CharField(max_length=35, null=True, blank=True)
-    ap_paterno = models.CharField(max_length=35)
-    ap_materno = models.CharField(max_length=35)
-    fec_nac = models.DateField()
+    aPaterno = models.CharField(max_length=35)
+    run = models.IntegerField(primary_key=True)
+    dv = models.CharField(max_length=1)
     correo = models.EmailField()
-    clave = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.nombre} {self.ap_paterno} {self.ap_materno}"
+        return f"{self.nombre} {self.ap_paterno}"
 
     class Meta:
         db_table = "cliente"
 
 
 class Dueno(models.Model):
-    run_due = models.IntegerField(primary_key=True)
-    dv_run = models.CharField(max_length=1)
     nombre = models.CharField(max_length=35)
-    s_nombre = models.CharField(max_length=35, null=True, blank=True)
-    ap_paterno = models.CharField(max_length=35)
-    ap_materno = models.CharField(max_length=35)
-    fec_nac = models.DateField()
+    aPaterno = models.CharField(max_length=35)
+    run = models.IntegerField(primary_key=True)
+    dv = models.CharField(max_length=1)
     correo = models.EmailField()
-    clave = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.nombre} {self.ap_paterno} {self.ap_materno}"
+        return f"{self.nombre} {self.ap_paterno}"
 
     class Meta:
         db_table = "dueno"
@@ -63,7 +57,7 @@ class Vehiculo(models.Model):
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     modelo = models.ForeignKey(Modelo, on_delete=models.CASCADE)
     color = models.CharField(max_length=35)
-    run_cli = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    run = models.ForeignKey(Cliente, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.patente} - {self.marca} {self.modelo}"
@@ -75,10 +69,10 @@ class Vehiculo(models.Model):
 class Tarjeta(models.Model):
     num_tarjeta = models.CharField(max_length=16, primary_key=True)
     cvv = models.CharField(max_length=3)
-    run_cli = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    run = models.ForeignKey(Cliente, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.num_tarjeta} - {self.run_cli}"
+        return f"{self.num_tarjeta} - {self.run}"
 
     class Meta:
         db_table = "tarjeta"

@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import *
+from django import forms
+from .forms import ClienteForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -11,7 +14,14 @@ def index(request):
     return render(request,"index.html", context)
 
 def registro(request):
-    return render(request,"registro.html")
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cliente registrado exitosamente.')
+    else:
+        form = ClienteForm()
+    return render(request, 'registro.html', {'form': form})
 
 
 

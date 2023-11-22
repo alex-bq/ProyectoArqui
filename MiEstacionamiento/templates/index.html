@@ -52,10 +52,10 @@
         {% csrf_token %}
         <a class="list-group-item list-group-item-action" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">Nombre: {{Cliente.nombre}} {{Cliente.ap_paterno}} {{Cliente.ap_materno}}</h5>
+            <h5 class="mb-1">Nombre: {{Cliente.nombre}} {{Cliente.aPaterno}}</h5>
             <small>Correo: {{Cliente.correo}} </small>
           </div>
-          <p class="mb-1">Rut: {{Cliente.run_cli}} </p>
+          <p class="mb-1">Rut: {{Cliente.run}} </p>
           <small>Hola  </small>
         </a>
         {% endfor %}
