@@ -18,7 +18,7 @@ def registro(request):
         form = ClienteForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Cliente registrado exitosamente.')
+            messages.success(request, 'Registrado exitosamente.')
     else:
         form = ClienteForm()
     return render(request, 'registro.html', {'form': form})
