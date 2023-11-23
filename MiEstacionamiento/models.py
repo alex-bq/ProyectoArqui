@@ -79,24 +79,24 @@ class Tarjeta(models.Model):
 
 
 class Direccion(models.Model):
-    id_dir = models.IntegerField(primary_key=True)
-    nombre_dic = models.CharField(max_length=50)
+    id = models.IntegerField(primary_key=True)
+    direc = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.nombre_dic
+        return self.direc
 
     class Meta:
         db_table = "direccion"
 
 
 class Estacionamiento(models.Model):
-    id_est = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     tarifa = models.IntegerField()
-    run_due = models.ForeignKey(Dueno, on_delete=models.CASCADE)
+    run = models.ForeignKey(Dueno, on_delete=models.CASCADE)
     id_dir = models.OneToOneField(Direccion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id_est} - {self.run_due} - {self.id_dir}"
+        return f"{self.id} - {self.run} - {self.id_dir}"
 
     class Meta:
         db_table = "estacionamiento"
@@ -109,7 +109,7 @@ class Arriendo(models.Model):
         ("culminado", "Culminado"),
     ]
 
-    id_arr = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     hora_inic = models.DateTimeField()
     hora_fin = models.DateTimeField()
     patente = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
@@ -117,20 +117,40 @@ class Arriendo(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADOS, default="pendiente")
 
     def __str__(self):
-        return f"{self.id_arr} - {self.patente} - {self.id_est} - {self.estado}"
+        return f"{self.id} - {self.patente} - {self.id_est} - {self.estado}"
 
     class Meta:
         db_table = "arriendo"
 
 
 class Calificacion(models.Model):
-    id_calificacion = models.AutoField(primary_key=True)
-    id_arr = models.OneToOneField(Arriendo, on_delete=models.CASCADE)
+    cali = models.AutoField(primary_key=True)
+    id = models.OneToOneField(Arriendo, on_delete=models.CASCADE)
     puntaje = models.IntegerField()
     comentario = models.TextField()
 
     def __str__(self):
-        return f"Calificación para Arriendo {self.id_arr}"
+        return f"Calificación para Arriendo {self.id}"
 
     class Meta:
         db_table = "calificacion"
+
+class arriendoWardado(models.Model):
+    ESTATUS = [
+        ("pendiente", "Pendiente"),
+        ("cancelado", "Cancelado"),
+        ("culminado", "Culminado"),
+    ]
+    id = models.AutoField(primary_key=True)
+    hora_inic = models.DateTimeField()
+    hora_fin = models.DateTimeField()
+    patente = models.CharField(max_length=6)
+    estatus = models.estado = models.CharField(max_length=20, choices=ESTATUS, default="pendiente")
+
+    def __str__(self):
+        return f"{self.id} - {self.patente} - {self.estatus}"
+
+    class Meta:
+        db_table = "arriendoWardado"
+
+
