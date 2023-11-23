@@ -62,7 +62,7 @@
   }
 
   .fondo{
-  background-image: url(../images/fondo.jpg);
+  background-color: rgb(254, 250, 224);
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -70,9 +70,9 @@
 
 nav{
     
-  background-color: rgb(245, 172, 61);
-  font-family: SotoBurgerNav;
+  background-color: rgb(80, 141, 105);
   font-weight: bold;
   font-size: large;  
  
 }
+

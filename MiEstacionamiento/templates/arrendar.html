@@ -1,0 +1,29 @@
+{% extends "./layouts/base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+<h1>
+    Arrendar es aqui
+</h1>
+
+<div class="list-group lista">
+    <a class="list-group-item list-group-item-action" aria-current="true">
+        <form method="POST" action="arrendar/">
+            {% csrf_token %}
+            <input type="datetime-local" name="hora_inic" placeholder="Hora de inicio">
+            <input type="datetime-local" name="hora_fin" placeholder="Hora de fin">
+            <input type="text" name="patente" placeholder="Patente">
+            <select name="estatus">
+                <option value="pendiente">Pendiente</option>
+                <option value="cancelado">Cancelado</option>
+                <option value="culminado">Culminado</option>
+            </select>
+            <button value="guardar_arriendo" type="submit">Guardar</button>
+        </form>
+    </a>
+</div>
+
+{% endblock %}
