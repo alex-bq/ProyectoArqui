@@ -10,20 +10,40 @@
 </h1>
 
 <div class="list-group lista">
-    <a class="list-group-item list-group-item-action" aria-current="true">
-        <form method="POST" action="arrendar/">
+    <div class="list-group-item list-group-item-action">
+        <form method="POST" action="{% url 'arrendar' %}">
             {% csrf_token %}
-            <input type="datetime-local" name="hora_inic" placeholder="Hora de inicio">
-            <input type="datetime-local" name="hora_fin" placeholder="Hora de fin">
-            <input type="text" name="patente" placeholder="Patente">
-            <select name="estatus">
-                <option value="pendiente">Pendiente</option>
-                <option value="cancelado">Cancelado</option>
-                <option value="culminado">Culminado</option>
-            </select>
-            <button value="guardar_arriendo" type="submit">Guardar</button>
+
+            <div class="mb-3">
+                <label for="hora_inic" class="form-label">Hora de inicio</label>
+                <input type="datetime-local" class="form-control" id="hora_inic" name="hora_inic"
+                    placeholder="Hora de inicio" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="hora_fin" class="form-label">Hora de fin</label>
+                <input type="datetime-local" class="form-control" id="hora_fin" name="hora_fin"
+                    placeholder="Hora de fin" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="patente" class="form-label">Patente</label>
+                <input type="text" class="form-control" id="patente" name="patente" placeholder="Patente" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="estatus" class="form-label">Estatus</label>
+                <select class="form-select" id="estatus" name="estatus" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="cancelado">Cancelado</option>
+                    <option value="culminado">Culminado</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
-    </a>
+    </div>
 </div>
+
 
 {% endblock %}
