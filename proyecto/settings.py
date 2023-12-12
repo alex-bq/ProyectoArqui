@@ -79,11 +79,11 @@ WSGI_APPLICATION = "proyecto.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",  # ENGINE es motor de BD
-        "NAME": "bd_estacionamiento",
+        "NAME": "mi_estacionamiento",
         "USER": "root",
-        "PASSWORD": "",
-        "HOST": "127.0.0.1",
-        "PORT": "3308",
+        "PASSWORD": "12345",
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
 

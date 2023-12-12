@@ -13,4 +13,5 @@ urlpatterns = [
     path("arrendar/", views.arrendar, name="arrendar"),
     path('iniciar_sesion/', views.iniciar_sesion, name='iniciar_sesion'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
+    path("index/", views.index, name="index"),
 ]

@@ -29,13 +29,17 @@
   
 
   html,
-  body {
-    font-family: 'Roboto', sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
 
+
+
+.fondo {
+    background-image: url('../images/Fondo_estacionamiento.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 1000px;
+    color: white;
+}
 
   .registro{
     align-self: center;
@@ -61,13 +65,6 @@
     }
   }
 
-  .fondo{
-  background-color: rgb(254, 250, 224);
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
 nav{
     
   background-color: rgb(80, 141, 105);
@@ -75,4 +72,8 @@ nav{
   font-size: large;  
  
 }
+h2 {
+  text-align: center;
+}
+
 
