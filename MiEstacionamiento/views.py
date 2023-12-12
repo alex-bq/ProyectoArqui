@@ -15,6 +15,8 @@ from .forms import RegistroForm
 #login
 from .forms import LoginForm
 
+#cerrar sesión 
+from django.contrib.auth import logout
 
 
 
@@ -82,3 +84,7 @@ def iniciar_sesion(request):
     else:
         form = LoginForm()
     return render(request, 'index.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('index')  # Reemplaza 'nombre_de_la_vista' con el nombre de la vista a la que deseas redirigir después de cerrar sesión 
