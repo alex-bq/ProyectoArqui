@@ -37,8 +37,7 @@
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     {% if user.is_authenticated %}
-                    <p>Bienvenido, {{ user.correo}}!</p>
-
+                    <p>Bienvenido, {{ user.username }}!</p>
                     {% else %}
                     <p>No ha iniciado sesión.</p>
                     {% endif %}
@@ -78,15 +77,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{% url 'login' %}">
+                    <form method="POST" action="/iniciar_sesion/">
                         {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit">Iniciar sesión</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <a href="/registro/">Registrarse</a>
-                    <button type="button" class="btn btn-primary">Ingresar</button>
+                        {{ form }}
+                    <div class="modal-footer">
+                    <a href="/registro/">Registrarse</a> 
+                    <button type="submit" class="btn btn-primary">Ingresar</button>   
+                    </div>  
+                    </form> 
                 </div>
             </div>
         </div>

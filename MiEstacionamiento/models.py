@@ -1,35 +1,5 @@
 from django.db import models
-
-
-class Cliente(models.Model):
-    nombre = models.CharField(max_length=35)
-    aPaterno = models.CharField(max_length=35)
-    run = models.IntegerField(primary_key=True)
-    dv = models.CharField(max_length=1)
-    correo = models.EmailField()
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.nombre} {self.ap_paterno}"
-
-    class Meta:
-        db_table = "cliente"
-
-
-class Dueno(models.Model):
-    nombre = models.CharField(max_length=35)
-    aPaterno = models.CharField(max_length=35)
-    run = models.IntegerField(primary_key=True)
-    dv = models.CharField(max_length=1)
-    correo = models.EmailField()
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.nombre} {self.ap_paterno}"
-
-    class Meta:
-        db_table = "dueno"
-
+from django.contrib.auth.models import User
 
 class Marca(models.Model):
     nombre_marca = models.CharField(max_length=35)
@@ -57,7 +27,7 @@ class Vehiculo(models.Model):
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     modelo = models.ForeignKey(Modelo, on_delete=models.CASCADE)
     color = models.CharField(max_length=35)
-    run = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.patente} - {self.marca} {self.modelo}"
@@ -66,13 +36,14 @@ class Vehiculo(models.Model):
         db_table = "vehiculo"
 
 
+
 class Tarjeta(models.Model):
     num_tarjeta = models.CharField(max_length=16, primary_key=True)
     cvv = models.CharField(max_length=3)
-    run = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.num_tarjeta} - {self.run}"
+        return f"{self.num_tarjeta} - {self.user}"
 
     class Meta:
         db_table = "tarjeta"
@@ -92,11 +63,11 @@ class Direccion(models.Model):
 class Estacionamiento(models.Model):
     id = models.IntegerField(primary_key=True)
     tarifa = models.IntegerField()
-    run = models.ForeignKey(Dueno, on_delete=models.CASCADE)
-    id_dir = models.OneToOneField(Direccion, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    direccion = models.OneToOneField(Direccion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} - {self.run} - {self.id_dir}"
+        return f"{self.id} - {self.user} - {self.direccion}"
 
     class Meta:
         db_table = "estacionamiento"
@@ -113,12 +84,12 @@ class Arriendo(models.Model):
     hora_inic = models.DateTimeField()
     hora_fin = models.DateTimeField()
     patente = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
-    id_est = models.ForeignKey(Estacionamiento, on_delete=models.CASCADE)
+    estacionamiento = models.ForeignKey(Estacionamiento, on_delete=models.CASCADE)
     estado = models.CharField(max_length=20, choices=ESTADOS, default="pendiente")
 
 
     def __str__(self):
-        return f"{self.id} - {self.patente} - {self.id_est} - {self.estado}"
+        return f"{self.id} - {self.patente} - {self.estacionamiento} - {self.estado}"
 
     class Meta:
         db_table = "arriendo"
@@ -126,12 +97,12 @@ class Arriendo(models.Model):
 
 class Calificacion(models.Model):
     cali = models.AutoField(primary_key=True)
-    id = models.OneToOneField(Arriendo, on_delete=models.CASCADE)
+    arriendo = models.OneToOneField(Arriendo, on_delete=models.CASCADE)
     puntaje = models.IntegerField()
     comentario = models.TextField()
 
     def __str__(self):
-        return f"Calificación para Arriendo {self.id}"
+        return f"Calificación para Arriendo {self.arriendo}"
 
     class Meta:
         db_table = "calificacion"

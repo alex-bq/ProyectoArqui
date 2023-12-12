@@ -13,36 +13,7 @@
     <div class="card-body">
       <form method="POST" action="/registro/">
         {% csrf_token %}
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre</label>
-          <input class="form-control" type="text" name="nombre" id="nombre" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="aPaterno" class="form-label">Apellido paterno</label>
-          <input class="form-control" type="text" name="aPaterno" id="aPaterno" required>
-        </div>
-
-        <div class="mb-2">
-          <label for="run" class="form-label">Rut (Ej:12345678)</label>
-          <input type="number" class="form-control" name="run" id="run" minlength="8" maxlength="8" required>
-        </div>
-
-        <div class="mb-1">
-          <label for="dv" class="form-label">DV</label>
-          <input type="text" class="form-control" name="dv" id="dv" minlength="1" maxlength="1" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="correo" class="form-label">Correo</label>
-          <input type="email" class="form-control" name="correo" id="correo" aria-describedby="emailHelp" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" name="password" id="password" required>
-        </div>
-
+        {{ form.as_p }}
         <button value="Registrar" type="submit" class="btn btn-primary">Registrarse</button>
       </form>
     </div>

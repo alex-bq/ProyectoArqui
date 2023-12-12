@@ -1,16 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
-from django import forms
-from .forms import ClienteForm
+
+#from .forms import ClienteForm
 from django.contrib import messages
 from datetime import datetime
 from .models import Vehiculo
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+#registro
+from django.contrib.auth.models import User
+from .forms import RegistroForm
 
 #login
-from django.contrib.auth.views import LoginView
+from .forms import LoginForm
+
+
+
 
 # Create your views here.
 
@@ -20,20 +26,22 @@ def index(request):
     context = {"lista_arriendos": lista_arriendos}
     return render(request, "index.html", context)
 
-def clientes(request):
-    lista_clientes = Cliente.objects.all()
-    context = {"lista_clientes": lista_clientes}
-    return render(request, "index.html", context)
 
 def registro(request):
-    if request.method == "POST":
-        form = ClienteForm(request.POST)
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
         if form.is_valid():
-            form.save()
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
             messages.success(request, "Registrado exitosamente.")
+            return redirect('index')  # Redirige al usuario a la página de inicio de sesión después del registro
     else:
-        form = ClienteForm()
-    return render(request, "registro.html", {"form": form})
+        form = RegistroForm()
+    return render(request, 'registro.html', {'form': form})
 
 
 def guardar_arriendo(request):
@@ -59,17 +67,18 @@ def arrendar(request):
     return render(request, "arrendar.html")
 
 
-def login(request):
+def iniciar_sesion(request):
     if request.method == 'POST':
-        correo = request.POST['correo']
-        password = request.POST['password']
-        user = authenticate(request, correo=correo, password=password)
-        if user is not None:
-            login(request, user)
-            nombre_usuario = user.nombre  # Obtén el nombre del usuario autenticado
-            return render(request, 'index.html', {'correo': correo})
-        else:
-            error_message = 'Datos incorrectos o inexistentes. Inténtalo de nuevo.'
-            return render(request, 'index.html', {'error_message': error_message})
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')  # Redirige al usuario a la página de inicio después del inicio de sesión
+            else:
+                form.add_error(None, 'Credenciales inválidas')
     else:
-        return render(request, 'index.html')
+        form = LoginForm()
+    return render(request, 'index.html', {'form': form})
