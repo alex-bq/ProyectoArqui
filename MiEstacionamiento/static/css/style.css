@@ -3,8 +3,8 @@
   display: grid;
  }
  #map {
-  height: 400px; 
-  width: 1180px;
+  height: 450px; 
+  width: 430px;
   margin: auto;
   border-radius: 02%;
   align-self: center;
@@ -77,10 +77,19 @@ h2 {
 }
 
 
-footer{
-  Background-color:#d4c9ad;
-
+footer {
+  /* Estilos para el footer */
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+ 
+  /* Otros estilos según tus necesidades */
 }
 
 
+#main-content {
+  min-height: calc(100vh - 2 * (altura del footer + altura del padding del footer));
+  /* Ajusta la altura del footer y el padding del footer según tus necesidades */
+}
 

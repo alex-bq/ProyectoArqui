@@ -4,37 +4,83 @@
 
 
 {% block content %}
-<div id="map"></div>
 
 
-<div class="container mt-5">
+<div class="container-fluid">
 
+  <div class="container text-center">
+    <div class="row align-items-center">
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card">
+          <div class="card-body"> 
+            <h5 class="card-title">Buscar estacionamiento</h5>
+            <form method="POST" action="{% url 'guardar_arriendo' %}">
+              {% csrf_token %}
   
-  <h1>Lista de Arriendos</h1>
+              <div class="mb-3">
+                  <label for="hora_inic" class="form-label">Hora de inicio</label>
+                  <input type="datetime-local" class="form-control" id="hora_inic" name="hora_inic"
+                      placeholder="Hora de inicio" required>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="hora_fin" class="form-label">Hora de fin</label>
+                  <input type="datetime-local" class="form-control" id="hora_fin" name="hora_fin"
+                      placeholder="Hora de fin" required>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="patente" class="form-label">Patente</label>
+                  <input type="text" class="form-control" id="patente" name="patente" placeholder="Patente" required>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="estatus" class="form-label">Estatus</label>
+                  <select class="form-select" id="estatus" name="estatus" required>
+                      <option value="pendiente">Pendiente</option>
+                      <option value="cancelado">Cancelado</option>
+                      <option value="culminado">Culminado</option>
+                  </select>
+              </div>
+  
+              <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+          </div>
+        </div>
+      </div>
 
-  {% if lista_arriendos %}
-  <div class="row mt-3">
-    
-    {% for arriendo in lista_arriendos %}
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Arriendo</h5>
-          <p class="card-text"><strong>Hora de inicio:</strong> {{ arriendo.hora_inic }}</p>
-          <p class="card-text"><strong>Hora de fin:</strong> {{ arriendo.hora_fin }}</p>
-          <p class="card-text"><strong>Patente:</strong> {{ arriendo.patente }}</p>
-          <p class="card-text"><strong>Estatus:</strong> {{ arriendo.estatus }}</p>
+      <div class="col-md-6 col-lg-4">
+        <div id="map"></div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card">
+          <div class="card-body"> 
+            <h5 class="card-title">Arrendar mi estacionamiento</h5>
+            <form method="POST" action="">
+              {% csrf_token %}
+  
+              <div class="mb-3">
+                  <label for="hora_inic" class="form-label">Dirección</label>
+                  <input type="text" class="form-control" 
+                      placeholder="Ingrese la dirección" required>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="hora_fin" class="form-label">Valor por minuto</label>
+                  <input type="number" class="form-control" id="hora_fin" name="hora_fin"
+                      placeholder="Valor por minuto" required>
+              </div>
+  
+              <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+          </div>
         </div>
       </div>
     </div>
-    {% endfor %}
   </div>
-  {% else %}
-  <p class="mt-3">No hay arriendos disponibles.</p>
-  {% endif %}
+
 </div>
-
-
-
 
 {% endblock %}
