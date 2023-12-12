@@ -5,7 +5,12 @@ from .forms import ClienteForm
 from django.contrib import messages
 from datetime import datetime
 from .models import Vehiculo
-from django.shortcuts import redirect
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+#login
+from django.contrib.auth.views import LoginView
 
 # Create your views here.
 
@@ -15,6 +20,10 @@ def index(request):
     context = {"lista_arriendos": lista_arriendos}
     return render(request, "index.html", context)
 
+def clientes(request):
+    lista_clientes = Cliente.objects.all()
+    context = {"lista_clientes": lista_clientes}
+    return render(request, "index.html", context)
 
 def registro(request):
     if request.method == "POST":
@@ -48,3 +57,19 @@ def guardar_arriendo(request):
 
 def arrendar(request):
     return render(request, "arrendar.html")
+
+
+def login(request):
+    if request.method == 'POST':
+        correo = request.POST['correo']
+        password = request.POST['password']
+        user = authenticate(request, correo=correo, password=password)
+        if user is not None:
+            login(request, user)
+            nombre_usuario = user.nombre  # Obtén el nombre del usuario autenticado
+            return render(request, 'index.html', {'correo': correo})
+        else:
+            error_message = 'Datos incorrectos o inexistentes. Inténtalo de nuevo.'
+            return render(request, 'index.html', {'error_message': error_message})
+    else:
+        return render(request, 'index.html')

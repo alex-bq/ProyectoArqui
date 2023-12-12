@@ -116,6 +116,7 @@ class Arriendo(models.Model):
     id_est = models.ForeignKey(Estacionamiento, on_delete=models.CASCADE)
     estado = models.CharField(max_length=20, choices=ESTADOS, default="pendiente")
 
+
     def __str__(self):
         return f"{self.id} - {self.patente} - {self.id_est} - {self.estado}"
 

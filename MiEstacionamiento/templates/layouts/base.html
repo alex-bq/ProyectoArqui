@@ -36,7 +36,12 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Bienvenido, usuario</h5>
+                    {% if user.is_authenticated %}
+                    <p>Bienvenido, {{ user.correo}}!</p>
+                    
+                  {% else %}
+                    <p>No ha iniciado sesión.</p>
+                  {% endif %}
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
