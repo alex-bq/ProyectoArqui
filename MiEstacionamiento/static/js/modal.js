@@ -1,3 +1,5 @@
+
+
 const exampleModal = document.getElementById('exampleModal')
 if (exampleModal) {
   exampleModal.addEventListener('show.bs.modal', event => {
@@ -15,4 +17,20 @@ if (exampleModal) {
     modalTitle.textContent = `New message to ${recipient}`
     modalBodyInput.value = recipient
   })
+}
+
+function validarCorreo (correo){
+  var expReg= /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+  var esValido= expReg.test(correo);
+
+  if(esValido==true){
+    $("#alertVerde").show();
+    $("#alertRojo").hide();
+
+  }
+  else{
+    $("#alertRojo").show();
+    $("#alertVerde").hide();
+  }
+
 }
