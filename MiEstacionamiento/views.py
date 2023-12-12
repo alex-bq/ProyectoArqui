@@ -5,6 +5,7 @@ from .models import *
 from django.contrib import messages
 from datetime import datetime
 from .models import Vehiculo
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -17,6 +18,7 @@ from .forms import LoginForm
 
 #cerrar sesión 
 from django.contrib.auth import logout
+from .models import arriendoWardado
 
 
 
@@ -33,19 +35,21 @@ def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
+            rol = request.POST.get('rol')
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+            
             messages.success(request, "Registrado exitosamente.")
-            return redirect('index')  # Redirige al usuario a la página de inicio de sesión después del registro
+            return redirect('index')  # Redirige a la página de inicio 
     else:
         form = RegistroForm()
     return render(request, 'registro.html', {'form': form})
 
-
+@login_required
 def guardar_arriendo(request):
     if request.method == "POST":
         hora_inic = request.POST.get("hora_inic")
@@ -78,8 +82,10 @@ def iniciar_sesion(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')  # Redirige al usuario a la página de inicio después del inicio de sesión
+                messages.success(request, "Sesión iniciada exitosamente.")
+                return redirect('index')  # Redirige a la página de inicio
             else:
+                messages.error(request, "Datos erróneos. Intente nuevamente")
                 form.add_error(None, 'Credenciales inválidas')
     else:
         form = LoginForm()
@@ -87,4 +93,4 @@ def iniciar_sesion(request):
 
 def cerrar_sesion(request):
     logout(request)
-    return redirect('index')  # Reemplaza 'nombre_de_la_vista' con el nombre de la vista a la que deseas redirigir después de cerrar sesión 
+    return redirect('index') 
