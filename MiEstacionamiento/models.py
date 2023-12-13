@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Marca(models.Model):
     nombre_marca = models.CharField(max_length=35)
 
@@ -36,13 +37,13 @@ class Vehiculo(models.Model):
         db_table = "vehiculo"
 
 
-
 class Tarjeta(models.Model):
     num_tarjeta = models.CharField(max_length=16, primary_key=True)
+    fecha_venc = models.CharField(max_length=7)
     cvv = models.CharField(max_length=3)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def str(self):
         return f"{self.num_tarjeta} - {self.user}"
 
     class Meta:
@@ -69,15 +70,11 @@ class Estacionamiento(models.Model):
 
 
 class Arriendo(models.Model):
-
-
     id = models.IntegerField(primary_key=True)
     hora_inic = models.DateTimeField()
     hora_fin = models.DateTimeField()
     patente = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     estacionamiento = models.ForeignKey(Estacionamiento, on_delete=models.CASCADE)
-    
-
 
     def __str__(self):
         return f"{self.id} - {self.patente} - {self.estacionamiento} "
@@ -98,22 +95,15 @@ class Calificacion(models.Model):
     class Meta:
         db_table = "calificacion"
 
+
 class arriendoWardado(models.Model):
-    ESTATUS = [
-        ("pendiente", "Pendiente"),
-        ("cancelado", "Cancelado"),
-        ("culminado", "Culminado"),
-    ]
     id = models.AutoField(primary_key=True)
     hora_inic = models.DateTimeField()
     hora_fin = models.DateTimeField()
     patente = models.CharField(max_length=6)
-    estatus = models.estado = models.CharField(max_length=20, choices=ESTATUS, default="pendiente")
 
     def __str__(self):
         return f"{self.id} - {self.patente} - {self.estatus}"
 
     class Meta:
         db_table = "arriendoWardado"
-
-

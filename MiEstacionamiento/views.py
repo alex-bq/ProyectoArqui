@@ -20,7 +20,7 @@ from django.contrib.auth import logout
 from .models import arriendoWardado
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm
+from .forms import LoginForm, TarjetaForm
 
 # Create your views here.
 
@@ -63,9 +63,8 @@ def guardar_arriendo(request):
         hora_inic = request.POST.get("hora_inic")
         hora_fin = request.POST.get("hora_fin")
         patente = request.POST.get("patente")
-        estatus = request.POST.get("estatus")
         arriendo = arriendoWardado(
-            hora_inic=hora_inic, hora_fin=hora_fin, patente=patente, estatus=estatus
+            hora_inic=hora_inic, hora_fin=hora_fin, patente=patente
         )
         arriendo.save()
         messages.success(request, "Arriendo guardado exitosamente.")
@@ -134,3 +133,29 @@ def login_view(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect("/")
+
+
+def pago(request):
+    return render(request, "pago.html", {"TarjetaForm": TarjetaForm})
+
+
+def guardar_tarjeta(request):
+    if request.method == "POST":
+        num_tarjeta = request.POST.get("num_tarjeta")
+        fecha_venc = request.POST.get("fecha_venc")
+        cvv = request.POST.get("cvv")
+        user_id = request.user.id
+
+        print("Valor ingresado en 'num_tarjeta':", num_tarjeta)
+        print("Valor ingresado en 'fecha_venc':", fecha_venc)
+        print("Valor ingresado en 'cvv':", cvv)
+
+        tarjeta = Tarjeta(
+            num_tarjeta=num_tarjeta, fecha_venc=fecha_venc, cvv=cvv, user_id=user_id
+        )
+        tarjeta.save()
+        messages.success(request, "Pago guardado correctamente.")
+
+        return redirect("index")  # Redirige a la página de inicio
+
+    return render(request, "index.html")

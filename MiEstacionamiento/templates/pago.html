@@ -1,0 +1,50 @@
+{% extends "./layouts/base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card" style="width: 500px;">
+            <div class="card-body">
+                <h5 class="card-title">Ingrese sus datos</h5>
+                <form method="POST" action="/guardar_tarjeta/">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="num_tarjeta" class="form-label">Número de tarjeta</label>
+                        <input type="number" class="form-control" id="num_tarjeta" name="num_tarjeta"
+                            placeholder="Ingrese el número de su tarjeta" minlength="16" maxlength="16" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_venc" class="form-label">Fecha de vencimiento</label>
+                        <input type="text" class="form-control" id="fecha_venc" name="fecha_venc" placeholder="YYYY-MM"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cvv" class="form-label">CVV</label>
+                        <input type="number" class="form-control" id="cvv" name="cvv" placeholder="CVV" minlength="3"
+                            maxlength="3" required>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Pagar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}

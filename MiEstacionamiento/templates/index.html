@@ -1,114 +1,96 @@
 {% extends "./layouts/base.html" %}
-
 {% load static %}
 
-
 {% block content %}
+<div class="container">
+  <div class="row">
+
+    <!-- Columna A -->
+    <div class="col-md-6">
 
 
-<div class="container-fluid">
-
-  <div class="container text-center containerindex">
-    <div class="row align-items-center">
-
-      <div class="col-md-6 col-lg-4">
-        <div class="card">
-          <div class="card-body"> 
-            <h5 class="card-title">Buscar estacionamiento</h5>
-            <form method="POST" action="{% url 'guardar_arriendo' %}">
-              {% csrf_token %}
-  
-              <div class="mb-3">
-                  <label for="hora_inic" class="form-label">Hora de inicio</label>
-                  <input type="datetime-local" class="form-control" id="hora_inic" name="hora_inic"
-                      placeholder="Hora de inicio" required>
-              </div>
-  
-              <div class="mb-3">
-                  <label for="hora_fin" class="form-label">Hora de fin</label>
-                  <input type="datetime-local" class="form-control" id="hora_fin" name="hora_fin"
-                      placeholder="Hora de fin" required>
-              </div>
-  
-              <div class="mb-3">
-                  <label for="patente" class="form-label">Patente</label>
-                  <input type="text" class="form-control" id="patente" name="patente" placeholder="Patente" required>
-              </div>
-  
-              <div class="mb-3">
-                  <label for="estatus" class="form-label">Estatus</label>
-                  <select class="form-select" id="estatus" name="estatus" required>
-                      <option value="pendiente">Pendiente</option>
-                      <option value="cancelado">Cancelado</option>
-                      <option value="culminado">Culminado</option>
-                  </select>
-              </div>
-  
-              <button type="submit" class="btn btn-primary">Guardar</button>
-          </form>
+      <div class="container mt-5 custom-form" style="max-width: 500px;">
+        <h2>Buscar estacionamiento</h2>
+        <form method="POST" action="{% url 'guardar_arriendo' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="hora_inic" class="form-label">Hora de inicio</label>
+            <input type="datetime-local" class="form-control" id="hora_inic" name="hora_inic"
+              placeholder="Hora de inicio" required>
           </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div id="map"></div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="card">
-          <div class="card-body"> 
-            <h5 class="card-title">Arrendar mi estacionamiento</h5>
-            <form method="POST" action="{% url 'guardar_estacionamiento' %}">
-              {% csrf_token %}
-
-              <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" 
-                placeholder="Ingrese la dirección..." required>
-            </div>
-  
-              <div class="mb-3">
-                  <label for="valorMinu" class="form-label">Valor por minuto</label>
-                  <input type="number" class="form-control" id="valorMinu" name="valorMinu"
-                      placeholder="Valor por minuto" required>
-              </div>
-  
-
-  
-  
-              <button type="submit" class="btn btn-primary">Publicar estacionamiento</button>
-          </form>
+          <div class="form-group">
+            <label for="hora_fin" class="form-label">Hora de fin</label>
+            <input type="datetime-local" class="form-control" id="hora_fin" name="hora_fin" placeholder="Hora de fin"
+              required>
           </div>
-        </div>
+          <div class="form-group">
+            <label for="patente" class="form-label">Patente</label>
+            <input type="text" class="form-control" id="patente" name="patente" placeholder="Patente" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
       </div>
+
+
+      <div class="container mt-5 custom-form" style="max-width: 500px;">
+        <h2>Arrendar mi estacionamiento</h2>
+        <form method="POST" action="{% url 'guardar_estacionamiento' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion"
+              placeholder="Ingrese la dirección..." required>
+          </div>
+          <div class="form-group">
+            <label for="valorMinu" class="form-label">Valor por minuto</label>
+            <input type="number" class="form-control" id="valorMinu" name="valorMinu" placeholder="Valor por minuto"
+              required>
+          </div>
+          <button type="submit" class="btn btn-primary">Publicar estacionamiento</button>
+        </form>
+      </div>
+
     </div>
-  </div>
 
-  <div class="container text-center containerCuadradito">
-    <h3>Estacionamientos disponibles</h3>
-  
-    <div class="container text-center containerCuadradito">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" style="max-height: 400px; overflow-y: auto;">
-        {% for estacionamiento in estacionamientos %}
-        <div class="col mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">Ubicación: {{ estacionamiento.direccion }}</h5>
-              <p class="card-text">Dueño: {{ estacionamiento.user }}</p>
-              <p class="card-text">Estado: {{ estacionamiento.estado }}</p>
-              <a href="#" class="btn btn-primary">Arrendar</a>
-            </div>
-          </div>
-        </div>
-        {% empty %}
-        <div class="col">
-          <p>No hay estacionamientos disponibles.</p>
-        </div>
-        {% endfor %}
-      </div>
+    <!-- Columna B -->
+    <div class="col-md-6">
+      <br>
+      <div id="map" class="w-100 h-100"></div>
     </div>
+
   </div>
 
 </div>
+<br><br>
 
+<!-- Nueva fila para estacionamientos disponibles -->
+
+<div class="container containerCuadradito">
+  <h3>Estacionamientos disponibles</h3>
+  <div class="container" style="max-height: 400px; overflow-y: auto;">
+    <ol class="list-group list-group-numbered">
+      {% for estacionamiento in estacionamientos %}
+      <li class="list-group-item d-flex justify-content-between align-items-start"
+        style="background-color: rgba(0, 0, 0, 0.819); color: white; border: none;">
+        <div class=" ms-2 me-auto">
+          <div class="fw-bold">{{ estacionamiento.direccion }}</div>
+          Dueño: {{ estacionamiento.user }}
+          <br>
+          <a href="{% url 'pago' %}" class="btn btn-primary" style="background-color: rgb(80, 141, 105); border: none;"">Arrendar</a>
+        </div>
+        <span class=" badge bg-primary rounded-pill">{{ estacionamiento.estado }}</span>
+      </li>
+      {% empty %}
+      <li class="list-group-item">No hay estacionamientos disponibles.</li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+
+
+
+
+</div>
+</div>
 {% endblock %}
