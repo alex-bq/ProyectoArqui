@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 
 # from .forms import ClienteForm
 from django.contrib import messages
 from datetime import datetime
-from .models import Vehiculo
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import authenticate, login
@@ -17,7 +16,6 @@ from .forms import RegistroForm
 
 # cerrar sesión
 from django.contrib.auth import logout
-from .models import arriendoWardado
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, TarjetaForm
@@ -26,7 +24,7 @@ from .forms import LoginForm, TarjetaForm
 
 
 def index(request):
-    lista_arriendos = arriendoWardado.objects.all()
+    lista_arriendos = Arriendo.objects.all()
     context = {"lista_arriendos": lista_arriendos}
     estacionamientos = Estacionamiento.objects.all()
     return render(request, "index.html", {"estacionamientos": estacionamientos})
@@ -135,8 +133,20 @@ def cerrar_sesion(request):
     return redirect("/")
 
 
-def pago(request):
-    return render(request, "pago.html", {"TarjetaForm": TarjetaForm})
+@login_required
+def pago(request, id):
+    print("ID recibido en la vista pago:", id)
+    estacionamiento_obj = get_object_or_404(Estacionamiento, id=id)
+
+    # Obtener las tarjetas del usuario actual
+    tarjetas_usuario = Tarjeta.objects.filter(user=request.user)
+
+    context = {
+        "TarjetaForm": TarjetaForm,
+        "estacionamiento": estacionamiento_obj,
+        "tarjetas_usuario": tarjetas_usuario,
+    }
+    return render(request, "pago.html", context)
 
 
 def guardar_tarjeta(request):
@@ -159,3 +169,47 @@ def guardar_tarjeta(request):
         return redirect("index")  # Redirige a la página de inicio
 
     return render(request, "index.html")
+
+
+def generar_pago(request, id):
+    if request.method == "POST":
+        # Obtener datos del formulario
+        hora_inic = request.POST.get("hora_inic")
+        hora_fin = request.POST.get("hora_fin")
+        patente = request.POST.get("patente")
+
+        # Obtener el estacionamiento
+        estacionamiento = Estacionamiento.objects.get(id=id)
+
+        # Crear y guardar el arriendo
+        arriendo = Arriendo(
+            hora_inic=hora_inic,
+            hora_fin=hora_fin,
+            patente=patente,
+            estacionamiento=estacionamiento,
+        )
+        arriendo.save()
+
+        # Obtener los datos de la tarjeta seleccionada o nueva
+        seleccion_tarjeta_id = request.POST.get("seleccion_tarjeta")
+        if seleccion_tarjeta_id:
+            # Utilizar una tarjeta existente
+            tarjeta = Tarjeta.objects.get(id=seleccion_tarjeta_id)
+        else:
+            # Crear una nueva tarjeta
+            num_tarjeta = request.POST.get("num_tarjeta")
+            fecha_venc = request.POST.get("fecha_venc")
+            cvv = request.POST.get("cvv")
+
+            tarjeta = Tarjeta(
+                num_tarjeta=num_tarjeta,
+                fecha_venc=fecha_venc,
+                cvv=cvv,
+                user=request.user,
+            )
+            tarjeta.save()
+
+        messages.success(request, "Arriendo pagado exitosamente.")
+        return redirect("index")  # Redirige a la página de inicio
+
+    return render(request, "pago.html")

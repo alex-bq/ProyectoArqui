@@ -1,50 +1,88 @@
 {% extends "./layouts/base.html" %}
-
 {% load static %}
 
-
 {% block content %}
+<div class="container mt-5 custom-form" style="max-width: 500px;">
+    <h2>Ingrese sus datos</h2>
 
-<div class="container-fluid">
+    <form method="POST" action="{% url 'generar_pago' estacionamiento.id %}">
+        {% csrf_token %}
 
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="card" style="width: 500px;">
-            <div class="card-body">
-                <h5 class="card-title">Ingrese sus datos</h5>
-                <form method="POST" action="/guardar_tarjeta/">
-                    {% csrf_token %}
+        <!-- Selección de tarjeta existente -->
+        <div class="form-group">
+            <label for="seleccion_tarjeta" class="form-label">Seleccione una tarjeta existente:</label>
+            <select class="form-control" id="seleccion_tarjeta" name="seleccion_tarjeta">
 
-                    <div class="mb-3">
-                        <label for="num_tarjeta" class="form-label">Número de tarjeta</label>
-                        <input type="number" class="form-control" id="num_tarjeta" name="num_tarjeta"
-                            placeholder="Ingrese el número de su tarjeta" minlength="16" maxlength="16" required>
-                    </div>
+                {% for tarjeta in tarjetas_usuario %}
+                <option value="{{ tarjeta.id }}">{{ tarjeta.num_tarjeta }} - {{ tarjeta.fecha_venc }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-                    <div class="mb-3">
-                        <label for="fecha_venc" class="form-label">Fecha de vencimiento</label>
-                        <input type="text" class="form-control" id="fecha_venc" name="fecha_venc" placeholder="YYYY-MM"
-                            required>
-                    </div>
+        <!-- Botón para agregar nueva tarjeta -->
+        <button type="button" class="btn btn-primary" id="agregar_nueva_tarjeta_button">Agregar Nueva Tarjeta</button>
 
-                    <div class="mb-3">
-                        <label for="cvv" class="form-label">CVV</label>
-                        <input type="number" class="form-control" id="cvv" name="cvv" placeholder="CVV" minlength="3"
-                            maxlength="3" required>
-                    </div>
+        <!-- Campos para agregar nueva tarjeta -->
+        <div id="campos_nueva_tarjeta" style="display: none;">
+            <div class="form-group">
+                <label for="num_tarjeta" class="form-label">Número de tarjeta</label>
+                <input type="number" class="form-control" id="num_tarjeta" name="num_tarjeta"
+                    placeholder="Ingrese el número de su tarjeta" minlength="16" maxlength="16">
+            </div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Pagar</button>
-                    </div>
-                </form>
+            <div class="form-group">
+                <label for="fecha_venc" class="form-label">Fecha de vencimiento</label>
+                <input type="text" class="form-control" id="fecha_venc" name="fecha_venc" placeholder="YYYY-MM">
+            </div>
+
+            <div class="form-group">
+                <label for="cvv" class="form-label">CVV</label>
+                <input type="number" class="form-control" id="cvv" name="cvv" placeholder="CVV" minlength="3"
+                    maxlength="3">
             </div>
         </div>
-    </div>
 
+        <!-- Campos para el arriendo -->
+        <div class="form-group">
+            <label for="hora_inic" class="form-label">Hora de inicio</label>
+            <input type="datetime-local" class="form-control" id="hora_inic" name="hora_inic"
+                placeholder="Hora de inicio">
+        </div>
+
+        <div class="form-group">
+            <label for="hora_fin" class="form-label">Hora de fin</label>
+            <input type="datetime-local" class="form-control" id="hora_fin" name="hora_fin" placeholder="Hora de fin">
+        </div>
+
+        <div class="form-group">
+            <label for="patente" class="form-label">Patente</label>
+            <input type="text" class="form-control" id="patente" name="patente" placeholder="Patente">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Pagar y Arrendar</button>
+    </form>
+
+    <script>
+        var camposNuevaTarjeta = document.getElementById('campos_nueva_tarjeta');
+        var agregarNuevaTarjetaButton = document.getElementById('agregar_nueva_tarjeta_button');
+        var seleccionTarjeta = document.getElementById('seleccion_tarjeta');
+
+        agregarNuevaTarjetaButton.addEventListener('click', function () {
+            camposNuevaTarjeta.style.display = 'block';
+            seleccionTarjeta.removeAttribute('required');
+            document.getElementById('num_tarjeta').required = true;
+            document.getElementById('fecha_venc').required = true;
+            document.getElementById('cvv').required = true;
+        });
+
+        seleccionTarjeta.addEventListener('change', function () {
+            camposNuevaTarjeta.style.display = 'none';
+            seleccionTarjeta.required = true;
+            document.getElementById('num_tarjeta').required = false;
+            document.getElementById('fecha_venc').required = false;
+            document.getElementById('cvv').required = false;
+        });
+    </script>
 </div>
-
-
-
-
-
 
 {% endblock %}

@@ -18,6 +18,6 @@ urlpatterns = [
         views.guardar_estacionamiento,
         name="guardar_estacionamiento",
     ),
-    path("guardar_tarjeta/", views.guardar_tarjeta, name="guardar_tarjeta"),
-    path("pago/", views.pago, name="pago"),
+    path("generar_pago/<int:id>", views.generar_pago, name="generar_pago"),
+    path("pago/<int:id>/", views.pago, name="pago"),
 ]
