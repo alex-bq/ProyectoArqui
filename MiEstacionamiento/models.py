@@ -49,47 +49,38 @@ class Tarjeta(models.Model):
         db_table = "tarjeta"
 
 
-class Direccion(models.Model):
-    id = models.IntegerField(primary_key=True)
-    direc = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.direc
-
-    class Meta:
-        db_table = "direccion"
-
-
 class Estacionamiento(models.Model):
-    id = models.IntegerField(primary_key=True)
-    tarifa = models.IntegerField()
+    ESTADOS = [
+        ("ocupado", "Ocupado"),
+        ("disponible", "Disponible"),
+        ("cerrado", "Cerrado"),
+    ]
+    id = models.AutoField(primary_key=True)
+    valorMinu = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    direccion = models.OneToOneField(Direccion, on_delete=models.CASCADE)
+    direccion = models.CharField(max_length=255)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default="disponible")
 
-    def __str__(self):
-        return f"{self.id} - {self.user} - {self.direccion}"
-
-    class Meta:
-        db_table = "estacionamiento"
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Genera automáticamente el valor del campo id
+            self.id = Estacionamiento.objects.count() + 1
+        super().save(*args, **kwargs)
 
 
 class Arriendo(models.Model):
-    ESTADOS = [
-        ("pendiente", "Pendiente"),
-        ("cancelado", "Cancelado"),
-        ("culminado", "Culminado"),
-    ]
+
 
     id = models.IntegerField(primary_key=True)
     hora_inic = models.DateTimeField()
     hora_fin = models.DateTimeField()
     patente = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     estacionamiento = models.ForeignKey(Estacionamiento, on_delete=models.CASCADE)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default="pendiente")
+    
 
 
     def __str__(self):
-        return f"{self.id} - {self.patente} - {self.estacionamiento} - {self.estado}"
+        return f"{self.id} - {self.patente} - {self.estacionamiento} "
 
     class Meta:
         db_table = "arriendo"

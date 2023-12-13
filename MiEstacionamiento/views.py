@@ -28,7 +28,8 @@ from .models import arriendoWardado
 def index(request):
     lista_arriendos = arriendoWardado.objects.all()
     context = {"lista_arriendos": lista_arriendos}
-    return render(request, "index.html", context)
+    estacionamientos = Estacionamiento.objects.all()
+    return render(request, "index.html",  {'estacionamientos': estacionamientos})
 
 
 def registro(request):
@@ -42,7 +43,7 @@ def registro(request):
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-            
+
             messages.success(request, "Registrado exitosamente.")
             return redirect('index')  # Redirige a la página de inicio 
     else:
@@ -56,13 +57,38 @@ def guardar_arriendo(request):
         hora_fin = request.POST.get("hora_fin")
         patente = request.POST.get("patente")
         estatus = request.POST.get("estatus")
-
-        # Corrige el nombre del modelo a Arriendo
         arriendo = arriendoWardado(
             hora_inic=hora_inic, hora_fin=hora_fin, patente=patente, estatus=estatus
         )
         arriendo.save()
         messages.success(request, "Arriendo guardado exitosamente.")
+
+        return redirect("index")  # Redirige a la página de inicio
+
+    return render(request, "index.html")
+
+def guardar_estacionamiento(request):
+    if request.method == "POST":
+        direccion = request.POST.get("direccion")
+        valorMinu = request.POST.get("valorMinu")
+        user_id = request.user.id
+
+
+        print("Valor ingresado en 'direccion':", direccion)
+        print("Valor ingresado en 'valorMinu':", valorMinu)
+        # Validar que valorMinu sea un número
+        try:
+            valorMinu = int(valorMinu)
+        except ValueError:
+            # Manejar el error de valor no numérico
+            messages.error(request, "El valor por minuto debe ser un número válido.")
+            return redirect("index")
+
+        estacionamiento = Estacionamiento(
+            valorMinu=valorMinu, direccion=direccion, user_id=user_id
+        )
+        estacionamiento.save()
+        messages.success(request, "Estacionamiento publicado correctamente.")
 
         return redirect("index")  # Redirige a la página de inicio
 

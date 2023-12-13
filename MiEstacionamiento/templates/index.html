@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
 
-  <div class="container text-center">
+  <div class="container text-center containerindex">
     <div class="row align-items-center">
 
       <div class="col-md-6 col-lg-4">
@@ -58,25 +58,53 @@
         <div class="card">
           <div class="card-body"> 
             <h5 class="card-title">Arrendar mi estacionamiento</h5>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'guardar_estacionamiento' %}">
               {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" 
+                placeholder="Ingrese la dirección..." required>
+            </div>
   
               <div class="mb-3">
-                  <label for="hora_inic" class="form-label">Dirección</label>
-                  <input type="text" class="form-control" 
-                      placeholder="Ingrese la dirección" required>
-              </div>
-  
-              <div class="mb-3">
-                  <label for="hora_fin" class="form-label">Valor por minuto</label>
-                  <input type="number" class="form-control" id="hora_fin" name="hora_fin"
+                  <label for="valorMinu" class="form-label">Valor por minuto</label>
+                  <input type="number" class="form-control" id="valorMinu" name="valorMinu"
                       placeholder="Valor por minuto" required>
               </div>
   
-              <button type="submit" class="btn btn-primary">Guardar</button>
+
+  
+  
+              <button type="submit" class="btn btn-primary">Publicar estacionamiento</button>
           </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-center containerCuadradito">
+    <h3>Estacionamientos disponibles</h3>
+  
+    <div class="container text-center containerCuadradito">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" style="max-height: 400px; overflow-y: auto;">
+        {% for estacionamiento in estacionamientos %}
+        <div class="col mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Ubicación: {{ estacionamiento.direccion }}</h5>
+              <p class="card-text">Dueño: {{ estacionamiento.user }}</p>
+              <p class="card-text">Estado: {{ estacionamiento.estado }}</p>
+              <a href="#" class="btn btn-primary">Arrendar</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div class="col">
+          <p>No hay estacionamientos disponibles.</p>
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
