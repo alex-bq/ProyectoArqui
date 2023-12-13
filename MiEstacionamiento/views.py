@@ -29,14 +29,13 @@ def index(request):
     lista_arriendos = arriendoWardado.objects.all()
     context = {"lista_arriendos": lista_arriendos}
     estacionamientos = Estacionamiento.objects.all()
-    return render(request, "index.html",  {'estacionamientos': estacionamientos})
+    return render(request, "index.html", {"estacionamientos": estacionamientos})
 
 
 def registro(request):
     if request.method == "POST":
         form = RegistroForm(request.POST)
         if form.is_valid():
-<<<<<<< HEAD
             rol = request.POST.get("rol")
             first_name = form.cleaned_data["first_name"]
             last_name = form.cleaned_data["last_name"]
@@ -50,15 +49,6 @@ def registro(request):
                 first_name=first_name,
                 last_name=last_name,
             )
-=======
-            rol = request.POST.get('rol')
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
->>>>>>> origin/main
 
             messages.success(request, "Registrado exitosamente.")
             return redirect("index")  # Redirige a la página de inicio
@@ -84,12 +74,12 @@ def guardar_arriendo(request):
 
     return render(request, "index.html")
 
+
 def guardar_estacionamiento(request):
     if request.method == "POST":
         direccion = request.POST.get("direccion")
         valorMinu = request.POST.get("valorMinu")
         user_id = request.user.id
-
 
         print("Valor ingresado en 'direccion':", direccion)
         print("Valor ingresado en 'valorMinu':", valorMinu)
