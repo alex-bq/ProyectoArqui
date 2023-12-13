@@ -55,7 +55,6 @@ def registro(request):
     return render(request, "registro.html", {"form": form})
 
 
-@login_required
 def guardar_arriendo(request):
     if request.method == "POST":
         hora_inic = request.POST.get("hora_inic")

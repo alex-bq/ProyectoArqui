@@ -83,7 +83,7 @@ DATABASES = {
         "USER": "root",
         "PASSWORD": "",
         "HOST": "127.0.0.1",
-        "PORT": "3308",
+        "PORT": "3307",
     }
 }
 
@@ -125,8 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+LOGIN_URL = "login/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = "/"

@@ -26,7 +26,20 @@
             <input type="number" class="form-control" id="valorMinu" name="valorMinu" placeholder="Valor por minuto"
               required>
           </div>
+          {% if user.is_authenticated %}
           <button type="submit" class="btn btn-primary">Publicar estacionamiento</button>
+          {% else %}
+          <a class="btn btn-primary " style="display: block; /* Mostrar el botón como bloque */
+          width: auto; /* Ancho automático del botón (ajustado al contenido) */
+          margin: 0 auto; /* Centrar el botón horizontalmente */
+          padding: 8px; /* Relleno interno del botón */
+          background-color: rgb(80, 141, 105); /* Color de fondo del botón */
+          color: #fff; /* Color del texto del botón */
+          border: none; /* Sin borde */
+          border-radius: 3px; /* Bordes redondeados */
+          cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */" href="/login/">Publicar
+            estacionamiento</a>
+          {% endif %}
         </form>
       </div>
 
@@ -56,8 +69,13 @@
           <div class="fw-bold">{{ estacionamiento.direccion }}</div>
           Dueño: {{ estacionamiento.user }}
           <br>
+          {% if user.is_authenticated %}
           <a href="{% url 'pago' estacionamiento.id %}" class="btn btn-primary"
             style="background-color: rgb(80, 141, 105); border: none;">Arrendar</a>
+          {% else %}
+          <a class="btn btn-primary" style="background-color: rgb(80, 141, 105); border: none;" href="/login/">Iniciar
+            sesión</a>
+          {% endif %}
         </div>
         <span class=" badge bg-primary rounded-pill">{{ estacionamiento.estado }}</span>
       </li>
