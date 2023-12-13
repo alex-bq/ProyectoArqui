@@ -45,7 +45,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
-                
+
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li>
@@ -54,8 +54,8 @@
                             <a class="nav-link">Buen día, {{ user.username }}!</a>
                             {% else %}
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i
-                                class="fa-sharp fa-solid fa-user"></i> Iniciar sesión</button>
+                                data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i
+                                    class="fa-sharp fa-solid fa-user"></i> Iniciar sesión</button>
                             {% endif %}
                         </li>
                         <li class="nav-item">
@@ -85,14 +85,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/iniciar_sesion/">
+                    <form method="POST" action="/login/">
                         {% csrf_token %}
                         {{ form }}
-                    <div class="modal-footer">
-                    <a href="/registro/">Registrarse</a> 
-                    <button type="submit" class="btn btn-primary">Ingresar</button>   
-                    </div>  
-                    </form> 
+                        <div class="modal-footer">
+                            <a href="/registro/">Registrarse</a>
+                            <button type="submit" class="btn btn-primary">Ingresar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -134,8 +134,8 @@
 <br><br><br><br><br><br><br><br><br><br>
 <footer>
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
-      © 2023 Todos los derechos reservados:
-      <a class="text-reset fw-bold" href="#">www.MiEstacionamiento.com</a>
+        © 2023 Todos los derechos reservados:
+        <a class="text-reset fw-bold" href="#">www.MiEstacionamiento.com</a>
     </div>
 </footer>
 

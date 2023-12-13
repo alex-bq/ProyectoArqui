@@ -93,3 +93,70 @@ footer {
   /* Ajusta la altura del footer y el padding del footer según tus necesidades */
 }
 
+
+
+/* styles.css */
+
+/* Estilos para el contenedor del formulario */
+.custom-form {
+  background-color: rgba(0, 0, 0, 0.819);
+  margin: auto; /* Centrar el formulario horizontalmente */
+  padding: 10px; /* Relleno interno del formulario */
+  border: 1px solid #ccc; /* Borde del formulario */
+  border-radius: 5px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Estilos para el título del formulario */
+.custom-form h2 {
+  text-align: center; /* Centrar el texto del título */
+}
+
+/* Estilos para el formulario en sí */
+.custom-form form {
+  margin-top: 20px; /* Margen superior del formulario */
+}
+
+/* Estilos para cada grupo de etiqueta y entrada del formulario */
+.custom-form .form-group {
+  margin-bottom: 20px; /* Margen inferior de cada grupo */
+  text-align: center; /* Centrar el texto del grupo */
+  
+}
+
+/* Estilos para las etiquetas del formulario */
+.custom-form label {
+  display: block; /* Mostrar etiquetas en bloques separados */
+  font-weight: bold; /* Texto en negrita para las etiquetas */
+  margin-bottom: 5px; /* Margen inferior de las etiquetas */
+}
+
+/* Estilos para las entradas de texto y contraseñas del formulario */
+.custom-form input[type="text"],
+.custom-form input[type="password"],
+.custom-form input[type="email"] {
+  width: 60%; /* Ancho completo de las entradas de texto */
+  padding: 8px; /* Relleno interno de las entradas de texto */
+  box-sizing: border-box; /* Incluir el borde y el relleno en el ancho total */
+  margin: 0 auto; /* Centrar horizontalmente */
+  display: block; /* Mostrar en bloque */
+}
+
+/* Estilos para el botón del formulario */
+.custom-form button {
+  display: block; /* Mostrar el botón como bloque */
+  width: auto; /* Ancho automático del botón (ajustado al contenido) */
+  margin: 0 auto; /* Centrar el botón horizontalmente */
+  padding: 8px; /* Relleno interno del botón */
+  background-color: rgb(80, 141, 105); /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  border: none; /* Sin borde */
+  border-radius: 3px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+}
+
+/* Estilos para el botón del formulario al pasar el ratón sobre él */
+.custom-form button:hover {
+  background-color: rgba(80, 141, 105, 0.92); /* Cambiar el color de fondo al pasar el ratón */
+}
+
